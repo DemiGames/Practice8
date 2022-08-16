@@ -9,29 +9,37 @@ public class SecondPractice : MonoBehaviour
     public Transform[] runnersArray;
     private Vector3 target;
     private bool isRunning = true;
-    private int value = 0;
+    private int index = 1;
+    private int currentIndex = 0;
+    private Transform currentRunner;
 
     void Start()
     {
-        target = runnersArray[value].transform.position;
+        target = runnersArray[index].transform.position;
+        currentRunner = runnersArray[currentIndex];
     }
 
     void Update()
     {
-        if (isRunning)
-        {
-            runnersArray[value].transform.position = Vector3.MoveTowards(runnersArray[value].transform.position, target, Time.deltaTime * speed);
-            MoveToPosition();
-        }
+        if (!isRunning) return;
+        Move();
+        if (TargetIsReached())
+            ChangeCurrentRunner();
     }
-    private void MoveToPosition()
+    private void Move()
     {
-        if (runnersArray[value].transform.position == target)
-        {
-            value++;
-            target = runnersArray[value].transform.position;
-            runnersArray[value].LookAt(target);
-            Debug.Log(value);
-        }
+        currentRunner.position = Vector3.MoveTowards(currentRunner.position, target, Time.deltaTime * speed);
+    }
+    private bool TargetIsReached()
+    {
+        return currentRunner.position == target;
+    }
+    private void ChangeCurrentRunner()
+    {
+        currentIndex = index;
+        currentRunner = runnersArray[index];
+        index = (index + 1) % runnersArray.Length;
+        target = runnersArray[index].position;
+        Move();
     }
 }
