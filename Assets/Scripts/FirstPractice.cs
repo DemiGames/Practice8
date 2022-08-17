@@ -6,14 +6,14 @@ using UnityEngine;
 public class FirstPractice : MonoBehaviour
 {
     public float speed;
-    public Transform[] pointsArray;
+    public Vector3[] pointsArray;
     private Vector3 target;
     private bool isRunning = true;
     private int value = 0;
 
     void Start()
     {
-        target = pointsArray[0].position;
+        target = pointsArray[0];
     }
 
     void Update()
@@ -29,9 +29,9 @@ public class FirstPractice : MonoBehaviour
         if (transform.position == target)
         {
             value++;
-            target = pointsArray[value].position;
+            target = pointsArray[value];
         }
-        if (target == pointsArray[pointsArray.Length - 1].position)
+        if (target == pointsArray[pointsArray.Length - 1])
         {
             Array.Reverse(pointsArray);
             value = 0;
